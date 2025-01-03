@@ -19,11 +19,12 @@ function evaluate({ id, generationCount, size, world }: Payload): Results {
 
 function simulate(world: World, count: number, limit: number): World[] {
   // start simulation with first world
-  const results: World[] = [world];
+  const results: World[] = [];
 
   // iterate through each generation
   for (let i = 0; i < count; i++) {
-    results.push(simulateGeneration(results[i], limit));
+    const nextGeneration = simulateGeneration(results[i - 1] ?? world, limit);
+    results.push(nextGeneration);
   }
 
   return results;
@@ -85,10 +86,10 @@ function determineFate(cell: Cell, neighbors: Neighbors): boolean {
 
 async function main() {
   const world = await getWorld();
-  const evaluatedWorld = evaluate(world);
-  const results = await postResults(evaluatedWorld);
+  const results = evaluate(world);
+  const response = await postResults(results);
 
-  console.log("results", results);
+  console.log("results", response);
 }
 
 try {

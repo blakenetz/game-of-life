@@ -19,5 +19,5 @@ export async function postResults(results: Results) {
     body: JSON.stringify(results),
   });
 
-  return response.json();
+  return response;
 }
