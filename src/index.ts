@@ -3,14 +3,12 @@ import simulate from "./simulate";
 
 async function main() {
   const world = await getWorld();
-  const results = simulate(world);
+  const results = await simulate(world);
   const response = await postResults(results);
 
   console.log("results", response);
 }
 
-try {
-  main();
-} catch (error) {
-  console.error("crap", error);
-}
+main().catch((e) => {
+  console.error("crap", e);
+});

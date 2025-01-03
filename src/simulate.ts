@@ -9,13 +9,17 @@ import {
   Neighborhood,
 } from "@/types";
 
-export default function (payload: Payload): Results {
+export default async function (payload: Payload): Promise<Results> {
   const simulation = new Simulation(payload);
+  const handleError = (error: Error) => {
+    console.error("Error running simulation");
+    throw error;
+  };
 
   return {
     id: simulation.id,
     generationCount: simulation.count,
-    generations: simulation.run(),
+    generations: await simulation.run().catch(handleError),
   };
 }
 
@@ -82,6 +86,8 @@ class Simulation {
 
   private simulateGeneration(world: World): World {
     return world.map((row, i) => {
+      if (!row) throw Error("Row not found");
+
       // get the rows above and below the current row
       const neighborhood: Neighborhood = [world[i - 1], row, world[i + 1]];
       // iterate over the cells
@@ -93,17 +99,26 @@ class Simulation {
     });
   }
 
-  run(): Generations {
-    const generations: Generations = [];
+  async run(): Promise<Generations> {
+    return new Promise((resolve, reject) => {
+      const generations: Generations = [];
 
-    // iterate through each generation
-    for (let i = 0; i < this.count; i++) {
-      // start simulation with first world
-      const world = generations[i - 1] ?? this.startingWorld;
-      const nextGeneration = this.simulateGeneration(world);
-      generations.push(nextGeneration);
-    }
+      // iterate through each generation
+      for (let i = 0; i < this.count; i++) {
+        // start simulation with first world
+        const world = generations[i - 1] ?? this.startingWorld;
+        if (!world) reject("Unable to find world to simulate");
 
-    return generations;
+        try {
+          const nextGeneration = this.simulateGeneration(world);
+          generations.push(nextGeneration);
+        } catch (error) {
+          console.error("Unable to simulate generation");
+          throw error;
+        }
+      }
+
+      resolve(generations);
+    });
   }
 }
