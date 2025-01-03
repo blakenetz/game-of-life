@@ -10,17 +10,12 @@ export async function getWorld(): Promise<Payload> {
     throw error;
   };
 
-  const response = await fetch(url).catch(handleError);
+  const response = await fetch(url);
   return response.json().catch(handleError);
 }
 
 export async function postResults(results: Results) {
   const url = new URL("results", baseUrl).toString();
-
-  const handleError = (error: Error) => {
-    console.error("error posting results");
-    throw error;
-  };
 
   const response = await fetch(url, {
     method: "POST",
@@ -28,7 +23,10 @@ export async function postResults(results: Results) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(results),
-  }).catch(handleError);
+  });
+
+  if (!response.ok) {
+  }
 
   return response;
 }

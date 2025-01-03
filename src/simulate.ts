@@ -4,7 +4,6 @@ import {
   Payload,
   Neighbors,
   Cell,
-  Row,
   Generations,
   Neighborhood,
 } from "@/types";
