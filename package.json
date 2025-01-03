@@ -1,0 +1,19 @@
+{
+  "name": "game-of-life",
+  "version": "1.0.0",
+  "description": "Node app based on Conway's Game of Life",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/blakenetz/game-of-life.git"
+  },
+  "author": "blake netzeband <blake.netzeband@gmail.com> (https://blakenetzeband.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blakenetz/game-of-life/issues"
+  },
+  "homepage": "https://github.com/blakenetz/game-of-life#readme"
+}
