@@ -1,14 +1,14 @@
-type Generation = (0 | 1)[];
+export type World = (0 | 1)[][];
 
-export interface World {
+export interface Payload {
   id: string;
   generationCount: number;
   size: number;
-  world: Generation[];
+  world: World;
 }
 
 export interface Results {
   id: string;
   generationCount: number;
-  generations: Generation[];
+  generations: World[];
 }

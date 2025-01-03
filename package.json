@@ -4,7 +4,8 @@
   "description": "Node app based on Conway's Game of Life",
   "main": "src/index.ts",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "tsx src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/blakenetz/game-of-life#readme",
   "devDependencies": {
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
 }
