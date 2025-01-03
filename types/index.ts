@@ -1,4 +1,9 @@
 export type Cell = 0 | 1;
+export type Row = Cell[];
+export type World = Row[];
+/** [Row to top, current Row, Row to bottom] */
+export type Neighborhood = [Row | null, Row, Row | null];
+
 /** Every cell has eight neighbors, which are the cells that are horizontally, vertically, or diagonally adjacent */
 export type Neighbors = {
   topLeft: Cell;
@@ -10,7 +15,6 @@ export type Neighbors = {
   bottomLeft: Cell;
   left: Cell;
 };
-export type World = Cell[][];
 
 export interface Payload {
   id: string;
