@@ -4,15 +4,13 @@ const baseUrl = "https://game-of-life-service-ai3nmiz7aa-uc.a.run.app/";
 
 export async function getWorld(): Promise<Payload> {
   const url = new URL("world", baseUrl).toString();
-
   const response = await fetch(url);
-  const world = await response.json();
-
-  return world;
+  return response.json();
 }
 
 export async function postResults(results: Results) {
   const url = new URL("results", baseUrl).toString();
+
   const response = await fetch(url, {
     method: "POST",
     headers: {
