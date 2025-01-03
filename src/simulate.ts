@@ -4,6 +4,7 @@ import {
   Payload,
   Neighbors,
   Cell,
+  Row,
   Generations,
   Neighborhood,
 } from "@/types";
@@ -43,14 +44,17 @@ class Simulation {
     const isEnd = index === this.limit;
 
     return {
-      topLeft: isStart || !top ? 0 : top[index - 1],
+      // top row
+      topLeft: !top || isStart ? 0 : top[index - 1],
       top: !top ? 0 : top[index],
-      topRight: isEnd || !top ? 0 : top[index + 1],
-      right: isEnd ? 0 : current[index + 1],
-      bottomRight: isEnd || !bottom ? 0 : bottom[index + 1],
+      topRight: !top || isEnd ? 0 : top[index + 1],
+      // bottom row
+      bottomLeft: !bottom || isStart ? 0 : bottom[index - 1],
       bottom: !bottom ? 0 : bottom[index],
-      bottomLeft: isStart || !bottom ? 0 : bottom[index - 1],
+      bottomRight: !bottom || isEnd ? 0 : bottom[index + 1],
+      // sides
       left: isStart ? 0 : current[index - 1],
+      right: isEnd ? 0 : current[index + 1],
     };
   }
 
