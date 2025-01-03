@@ -1,6 +1,7 @@
 export type Cell = 0 | 1;
 export type Row = Cell[];
 export type World = Row[];
+export type Generations = World[];
 /** [Row to top, current Row, Row to bottom] */
 export type Neighborhood = [Row | null, Row, Row | null];
 
@@ -26,5 +27,5 @@ export interface Payload {
 export interface Results {
   id: string;
   generationCount: number;
-  generations: World[];
+  generations: Generations;
 }

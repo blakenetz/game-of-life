@@ -4,6 +4,7 @@ import {
   Payload,
   Neighbors,
   Cell,
+  Generations,
   Neighborhood,
 } from "@/types";
 
@@ -88,17 +89,17 @@ class Simulation {
     });
   }
 
-  run(): World[] {
-    const results: World[] = [];
+  run(): Generations {
+    const generations: Generations = [];
 
     // iterate through each generation
     for (let i = 0; i < this.count; i++) {
       // start simulation with first world
-      const world = results[i - 1] ?? this.startingWorld;
+      const world = generations[i - 1] ?? this.startingWorld;
       const nextGeneration = this.simulateGeneration(world);
-      results.push(nextGeneration);
+      generations.push(nextGeneration);
     }
 
-    return results;
+    return generations;
   }
 }
