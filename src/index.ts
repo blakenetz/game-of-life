@@ -17,13 +17,14 @@ function evaluate({ id, generationCount, size, world }: Payload): Results {
   };
 }
 
-function simulate(world: World, count: number, limit: number): World[] {
-  // start simulation with first world
+function simulate(startingWorld: World, count: number, limit: number): World[] {
   const results: World[] = [];
 
   // iterate through each generation
   for (let i = 0; i < count; i++) {
-    const nextGeneration = simulateGeneration(results[i - 1] ?? world, limit);
+    // start simulation with first world
+    const world = results[i - 1] ?? startingWorld;
+    const nextGeneration = simulateGeneration(world, limit);
     results.push(nextGeneration);
   }
 
