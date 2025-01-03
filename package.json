@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/blakenetz/game-of-life/issues"
   },
-  "homepage": "https://github.com/blakenetz/game-of-life#readme"
+  "homepage": "https://github.com/blakenetz/game-of-life#readme",
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
 }
