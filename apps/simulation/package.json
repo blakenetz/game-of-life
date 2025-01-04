@@ -5,8 +5,8 @@
   "types": "dist/index.d.ts",
  "scripts": {
     "test": "jest",
-    "start": "NODE_ENV=production ts-node dist/app.ts",
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon --delay 2.5 index.ts",
+    "run": "tsx dist/index.ts",
     "build": "tsc"
   },
   "dependencies": {

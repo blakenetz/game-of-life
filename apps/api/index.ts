@@ -13,8 +13,9 @@ app.listen(port, () => {
   console.log(`API running on port ${port}`);
 });
 
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   const { id } = req.params;
+  console.log("here", id, "-----------");
   const base = new URL("world", baseUrl);
   const url = new URL(id, base).toString();
 
@@ -47,8 +48,4 @@ router.post("/", async (req: Request, res: Response) => {
   }
 
   res.send(response);
-});
-
-app.listen(port, () => {
-  console.log(`API running on port ${port}`);
 });

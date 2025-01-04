@@ -11,9 +11,8 @@ app.listen(port, () => {
 });
 
 app.get("/", async (req: Request, res: Response) => {
-  const world = await fetch("http://localhost:3001/world").then((res) =>
-    res.json()
-  );
+  const response = await fetch("http://localhost:3001");
+  console.log(response);
 
   // logger.debug("running simulation...");
   // const results = await simulate(world);
