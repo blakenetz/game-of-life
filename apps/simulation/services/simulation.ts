@@ -7,7 +7,7 @@ import {
   Neighborhood,
 } from "@/types";
 
-export class Simulation {
+export default class Simulation {
   id: string;
   count: number;
   limit: number;
@@ -97,7 +97,7 @@ export class Simulation {
           const nextGeneration = this.simulateGeneration(world);
           generations.push(nextGeneration);
         } catch (error) {
-          logger.error("Unable to simulate generation");
+          // logger.error("Unable to simulate generation");
           throw error;
         }
       }

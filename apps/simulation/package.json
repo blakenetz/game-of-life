@@ -1,13 +1,12 @@
 {
-  "name": "@game-of-life/simulate",
+  "name": "@game-of-life/simulation",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
+ "scripts": {
     "test": "jest",
     "start": "NODE_ENV=production ts-node dist/app.ts",
-    "dev": "nodemon src/app.ts",
-    "run": "tsx src/main.ts",
+    "dev": "nodemon src/index.ts",
     "build": "tsc"
   },
   "dependencies": {
