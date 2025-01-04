@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
-import logger from "./logger";
-import simulate from "./simulate";
-import { getWorld, postResults } from "./api";
+// import logger from "./logger";
+// import simulate from "./simulate";
+// import { getWorld, postResults } from "./api";
 
 const app = express();
 const port = 3000;

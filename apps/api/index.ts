@@ -1,14 +1,16 @@
-import { Payload, Results } from "@/types";
-// import logger from "./logger";
+import express, { Request, Response } from "express";
 
 const baseUrl = "https://game-of-life-service-ai3nmiz7aa-uc.a.run.app/";
 
-export async function getWorld(id = ""): Promise<Payload> {
+const app = express();
+const port = 3001;
+
+app.get("/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
   const base = new URL("world", baseUrl);
   const url = new URL(id, base).toString();
 
   const handleError = (error: Error) => {
-    // logger.error("error fetching world");
     throw error;
   };
 
@@ -16,10 +18,10 @@ export async function getWorld(id = ""): Promise<Payload> {
 
   if (!response.ok) handleError(new Error("Response not ok"));
 
-  return response.json().catch(handleError);
-}
+  res.send(response.json());
+});
 
-export async function postResults(results: Results) {
+app.post("/", async (req: Request, res: Response) => {
   const url = new URL("results", baseUrl).toString();
 
   const response = await fetch(url, {
@@ -35,5 +37,9 @@ export async function postResults(results: Results) {
     throw new Error("error posting results");
   }
 
-  return response;
-}
+  res.send(response);
+});
+
+app.listen(port, () => {
+  console.log(`API running on port ${port}`);
+});
