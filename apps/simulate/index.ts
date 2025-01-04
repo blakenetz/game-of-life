@@ -7,8 +7,8 @@ import {
   Generations,
   Neighborhood,
 } from "@/types";
-import logger from "./logger";
-import cache from "./cache";
+import logger from "../packages/logger";
+import cache from "../packages/cache";
 
 export default async function (payload: Payload): Promise<Results> {
   const cachedSimulation = await cache.get<Generations>(payload.id);

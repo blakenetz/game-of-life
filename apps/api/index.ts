@@ -1,5 +1,5 @@
 import { Payload, Results } from "@/types";
-import logger from "./logger";
+// import logger from "./logger";
 
 const baseUrl = "https://game-of-life-service-ai3nmiz7aa-uc.a.run.app/";
 
@@ -8,7 +8,7 @@ export async function getWorld(id = ""): Promise<Payload> {
   const url = new URL(id, base).toString();
 
   const handleError = (error: Error) => {
-    logger.error("error fetching world");
+    // logger.error("error fetching world");
     throw error;
   };
 
@@ -31,7 +31,7 @@ export async function postResults(results: Results) {
   });
 
   if (!response.ok) {
-    logger.error("error posting results");
+    // logger.error("error posting results");
     throw new Error("error posting results");
   }
 

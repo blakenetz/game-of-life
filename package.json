@@ -1,14 +1,15 @@
 {
   "name": "game-of-life",
   "version": "1.0.0",
-  "description": "Node app based on Conway's Game of Life",
-  "main": "src/index.ts",
+  "description": "Monorepo based on Conway's Game of Life",
   "scripts": {
-    "test": "jest",
-    "start": "NODE_ENV=production ts-node dist/app.ts",
-    "dev": "nodemon src/app.ts",
-    "run": "tsx src/main.ts",
-    "build": "tsc"
+    "dev": "pnpm run --parallel dev",
+    "build": "pnpm run --parallel build",
+    "build:server": "pnpm --filter server build",
+    "build:web": "pnpm --filter web build",
+    "start": "pnpm --filter server start",
+    "lint": "pnpm run -r --aggregate-output lint",
+    "test": "pnpm run --parallel test"
   },
   "repository": {
     "type": "git",
@@ -20,20 +21,14 @@
     "url": "https://github.com/blakenetz/game-of-life/issues"
   },
   "homepage": "https://github.com/blakenetz/game-of-life#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.5",
     "jest": "^29.7.0",
-    "nodemon": "^3.1.9",
     "ts-jest": "^29.2.5",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "chalk": "^5.4.1",
-    "express": "^4.21.2",
-    "unstorage": "^1.14.4"
   }
 }
