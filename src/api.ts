@@ -3,8 +3,9 @@ import logger from "./logger";
 
 const baseUrl = "https://game-of-life-service-ai3nmiz7aa-uc.a.run.app/";
 
-export async function getWorld(): Promise<Payload> {
-  const url = new URL("world", baseUrl).toString();
+export async function getWorld(id = ""): Promise<Payload> {
+  const base = new URL("world", baseUrl);
+  const url = new URL(id, base).toString();
 
   const handleError = (error: Error) => {
     logger.error("error fetching world");
