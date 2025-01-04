@@ -1,9 +1,13 @@
-import { Payload, Results } from "@types";
-import { logger } from "@utils";
+import express, { Request, Response } from "express";
+import { Results } from "@types";
+import logger from "@utils/logger";
+
+export const router = express.Router();
 
 const baseUrl = "https://game-of-life-service-ai3nmiz7aa-uc.a.run.app/";
 
-export async function getWorld(id = ""): Promise<Payload> {
+router.get("/:id", async (res: Response, req: Request) => {
+  const { id } = req.params;
   const base = new URL("world", baseUrl);
   const url = new URL(id, base).toString();
 
@@ -16,10 +20,11 @@ export async function getWorld(id = ""): Promise<Payload> {
 
   if (!response.ok) handleError(new Error("Response not ok"));
 
-  return response.json().catch(handleError);
-}
+  res.json(response.json().catch(handleError));
+});
 
-export async function postResults(results: Results) {
+router.post("/", async (req: Request, res: Response) => {
+  const results = req.body as Results;
   const url = new URL("results", baseUrl).toString();
 
   const response = await fetch(url, {
@@ -35,5 +40,5 @@ export async function postResults(results: Results) {
     throw new Error("error posting results");
   }
 
-  return response;
-}
+  res.send(response);
+});

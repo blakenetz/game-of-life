@@ -1,24 +1,28 @@
+import express, { Request, Response } from "express";
 import {
   World,
-  Results,
   Payload,
   Neighbors,
   Cell,
   Generations,
   Neighborhood,
 } from "@types";
-import { logger, cache } from "@utils";
+import cache from "@utils/cache";
+import logger from "@utils/logger";
 
-export default async function (payload: Payload): Promise<Results> {
+export const router = express.Router();
+
+router.post("/", async (req: Request, res: Response) => {
+  const payload = req.body as Payload;
   const cachedSimulation = await cache.get<Generations>(payload.id);
 
   if (cachedSimulation) {
     logger.debug("Simulation fetched from cache");
-    return {
+    res.json({
       id: payload.id,
       generationCount: payload.generationCount,
       generations: cachedSimulation,
-    };
+    });
   }
 
   const simulation = new Simulation(payload);
@@ -32,12 +36,12 @@ export default async function (payload: Payload): Promise<Results> {
 
   cache.set(payload.id, generations);
 
-  return {
+  res.json({
     id: simulation.id,
     generationCount: simulation.count,
     generations,
-  };
-}
+  });
+});
 
 class Simulation {
   id: string;

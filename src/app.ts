@@ -1,8 +1,13 @@
 import express, { Request, Response } from "express";
-import { logger } from "@utils";
+import logger from "@utils/logger";
+import { simulationRouter, apiRouter } from "./services";
 
 const app = express();
 const port = 3000;
+
+app.use(express.json());
+app.use("/api", apiRouter);
+app.use("/simulation", simulationRouter);
 
 app.get("/", async (req: Request, res: Response) => {
   logger.debug("fetching world...");

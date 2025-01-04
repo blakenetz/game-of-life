@@ -7,12 +7,16 @@
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@types": ["./types/index.d.ts"],
-      "@src/*": ["./src/*"],
-      "@utils": ["./src/utils/index.ts"]
+      "@types": ["types/index.d.ts"],
+      "@src/*": ["src/*"],
+      "@utils/*": ["src/utils/*.ts"]
     },
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": "src"
   },
-  "include": ["./src/**/*", "./types/**/*"]
+  "include": ["src/**/*", "types/**/*"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }
