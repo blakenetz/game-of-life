@@ -7,11 +7,13 @@ import {
   Generations,
   Neighborhood,
 } from "@/types";
+import logger from "./logger";
 
 export default async function (payload: Payload): Promise<Results> {
   const simulation = new Simulation(payload);
+
   const handleError = (error: Error) => {
-    console.error("Error running simulation");
+    logger.error("Error running simulation");
     throw error;
   };
 
@@ -112,7 +114,7 @@ class Simulation {
           const nextGeneration = this.simulateGeneration(world);
           generations.push(nextGeneration);
         } catch (error) {
-          console.error("Unable to simulate generation");
+          logger.error("Unable to simulate generation");
           throw error;
         }
       }

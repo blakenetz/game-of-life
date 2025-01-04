@@ -1,18 +1,39 @@
 import chalk from "chalk";
 
-export default class logger {
-  private static suffix() {
+class Logger {
+  startTime: number | null;
+
+  constructor() {
+    this.startTime = null;
+  }
+
+  private suffix() {
     return chalk.magenta(`🧫 ${new Date().toISOString()}`);
   }
 
-  static info(...args: any[]) {
+  info(...args: any[]) {
     console.log(`${this.suffix()}`, chalk.bold.blue("[INFO]"), ...args);
   }
-  static debug(...args: any[]) {
+
+  debug(...args: any[]) {
     if (process.env.NODE_ENV === "production") return;
     console.log(`${this.suffix()}`, chalk.bold.green("[DEBUG]"), ...args);
   }
-  static error(...args: any[]) {
+
+  error(...args: any[]) {
     console.log(`${this.suffix()}`, chalk.bold.red("[ERROR]"), ...args);
   }
+
+  time = {
+    start: () => {
+      this.startTime = Date.now();
+    },
+    end: () => {
+      const ms = Date.now() - this.startTime!;
+      this.info(chalk.yellow(`Finished in: ${ms / 1000}s`));
+      this.startTime = null;
+    },
+  };
 }
+
+export default new Logger();
