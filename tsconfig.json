@@ -7,11 +7,12 @@
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@/types": ["./src/types/index.ts"],
-      "@/src/*": ["./src/*"]
+      "@types": ["./types/index.d.ts"],
+      "@src/*": ["./src/*"],
+      "@utils": ["./src/utils/index.ts"]
     },
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./types/**/*"]
 }

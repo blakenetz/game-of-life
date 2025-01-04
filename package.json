@@ -7,8 +7,7 @@
     "test": "jest",
     "start": "NODE_ENV=production ts-node dist/app.ts",
     "dev": "nodemon src/app.ts",
-    "run": "tsx src/main.ts",
-    "build": "tsc"
+    "build": "tsc --project tsconfig.build.json"
   },
   "repository": {
     "type": "git",

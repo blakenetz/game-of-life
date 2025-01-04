@@ -1,5 +1,5 @@
-import { Payload, Results } from "@/types";
-import logger from "./logger";
+import { Payload, Results } from "@types";
+import { logger } from "@utils";
 
 const baseUrl = "https://game-of-life-service-ai3nmiz7aa-uc.a.run.app/";
 
