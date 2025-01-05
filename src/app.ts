@@ -1,43 +1,50 @@
-import express, { Request, Response } from "express";
+import { ApiService, SimulationService } from "@services";
+import { Generations } from "@types";
+import cache from "@utils/cache";
 import logger from "@utils/logger";
-import { simulationRouter, apiRouter } from "./services";
+import express, { Request, Response } from "express";
 
 const app = express();
 const port = 3000;
-
-app.use(express.json());
-app.use("/api", apiRouter);
-app.use("/simulation", simulationRouter);
 
 app.get("/", async (req: Request, res: Response) => {
   logger.debug("fetching world...");
   logger.time.start();
 
-  // const world = await getWorld();
+  const world = await ApiService.getWorld();
 
-  // logger.debug("running simulation...");
-  // const results = await simulate(world);
+  const cachedUrl = await cache.get<string>(world.id);
+  if (cachedUrl) res.send(`Visit results at: ${cachedUrl}`);
 
-  // logger.debug("posting results...");
-  // const response = await postResults(results);
+  logger.debug("running simulation...");
+  const results = await SimulationService.simulate(world);
+
+  logger.debug("posting results...");
+  const response = await ApiService.postResults(results);
+  cache.set(world.id, response.url);
 
   logger.time.end();
-  res.send(`Visit results at: `);
+  res.send(`Visit results at: ${response.url}`);
 });
 
-// app.get("/:id", async (req: Request, res: Response) => {
-//   const { id } = req.params;
-//   const world = await getWorld(id);
+app.get("/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-//   logger.debug("running simulation...");
-//   const results = await simulate(world);
+  const cachedUrl = await cache.get<string>(id);
+  if (cachedUrl) res.send(`Visit results at: ${cachedUrl}`);
 
-//   logger.debug("posting results...");
-//   const response = await postResults(results);
+  const world = await ApiService.getWorld(id);
 
-//   logger.time.end();
-//   res.send(`Visit results at: ${response.url}`);
-// });
+  logger.debug("running simulation...");
+  const results = await SimulationService.simulate(world);
+
+  logger.debug("posting results...");
+  const response = await ApiService.postResults(results);
+  cache.set(id, response.url);
+
+  logger.time.end();
+  res.send(`Visit results at: ${response.url}`);
+});
 
 app.listen(port, () => {
   console.log(`App running on port ${port}`);

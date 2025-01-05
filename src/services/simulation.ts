@@ -1,47 +1,13 @@
-import express, { Request, Response } from "express";
 import {
-  World,
-  Payload,
-  Neighbors,
   Cell,
   Generations,
   Neighborhood,
+  Neighbors,
+  Payload,
+  Results,
+  World,
 } from "@types";
-import cache from "@utils/cache";
 import logger from "@utils/logger";
-
-export const router = express.Router();
-
-router.post("/", async (req: Request, res: Response) => {
-  const payload = req.body as Payload;
-  const cachedSimulation = await cache.get<Generations>(payload.id);
-
-  if (cachedSimulation) {
-    logger.debug("Simulation fetched from cache");
-    res.json({
-      id: payload.id,
-      generationCount: payload.generationCount,
-      generations: cachedSimulation,
-    });
-  }
-
-  const simulation = new Simulation(payload);
-
-  const handleError = (error: Error) => {
-    logger.error("Error running simulation");
-    throw error;
-  };
-
-  const generations = await simulation.run().catch(handleError);
-
-  cache.set(payload.id, generations);
-
-  res.json({
-    id: simulation.id,
-    generationCount: simulation.count,
-    generations,
-  });
-});
 
 class Simulation {
   id: string;
@@ -142,3 +108,22 @@ class Simulation {
     });
   }
 }
+
+class SimulationService {
+  async simulate(payload: Payload): Promise<Results> {
+    const simulation = new Simulation(payload);
+
+    const generations = await simulation.run().catch((error: Error) => {
+      logger.error("Error running simulation");
+      throw error;
+    });
+
+    return {
+      id: simulation.id,
+      generationCount: simulation.count,
+      generations,
+    };
+  }
+}
+
+export default new SimulationService();

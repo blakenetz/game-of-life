@@ -1,2 +1,2 @@
-export { router as apiRouter } from "./api";
-export { router as simulationRouter } from "./simulation";
+export { default as ApiService } from "./api";
+export { default as SimulationService } from "./simulation";
