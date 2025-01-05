@@ -6,7 +6,7 @@ import express, { NextFunction, Request, Response } from "express";
 const app = express();
 const port = 3000;
 
-app.get("/", async (req: Request, res: Response, next: NextFunction) => {
+app.get("/", async (_req: Request, res: Response, next: NextFunction) => {
   logger.debug("fetching world...");
   logger.time.start();
 
@@ -80,6 +80,12 @@ app.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+// 404
+app.all("*", (req, res) => {
+  res.status(404).send(`Page not found <a href="/">Try again</a>`);
+});
+
+// error handling
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof Response) {
     logger.error(err.statusText);
