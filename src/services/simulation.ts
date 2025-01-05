@@ -8,6 +8,7 @@ import {
   World,
 } from "@types";
 import logger from "@utils/logger";
+import BaseService from "./base";
 
 class Simulation {
   id: string;
@@ -109,8 +110,10 @@ class Simulation {
   }
 }
 
-class SimulationService {
+class SimulationService extends BaseService {
   async simulate(payload: Payload): Promise<Results> {
+    this.log("Running simulation...");
+
     const simulation = new Simulation(payload);
 
     const generations = await simulation.run().catch((error: Error) => {

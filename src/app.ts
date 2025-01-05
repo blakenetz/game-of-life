@@ -7,7 +7,6 @@ const app = express();
 const port = 3000;
 
 app.get("/", async (_req: Request, res: Response, next: NextFunction) => {
-  logger.debug("fetching world...");
   logger.time.start();
 
   try {
@@ -23,13 +22,10 @@ app.get("/", async (_req: Request, res: Response, next: NextFunction) => {
       return;
     }
 
-    logger.debug("running simulation...");
     const results = await SimulationService.simulate(world);
-
-    logger.debug("posting results...");
     const response = await ApiService.postResults(results);
-    cache.set(world.id, response.url);
 
+    cache.set(world.id, response.url);
     logger.time.end();
     res
       .status(200)
@@ -44,7 +40,6 @@ app.get("/", async (_req: Request, res: Response, next: NextFunction) => {
 
 app.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
-  logger.debug(`fetching world ${id}...`);
   logger.time.start();
 
   const cachedUrl = await cache.get<string>(id);
@@ -59,15 +54,10 @@ app.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const world = await ApiService.getWorld(id);
-    console.log("world", world);
-
-    logger.debug("running simulation...");
     const results = await SimulationService.simulate(world);
-
-    logger.debug("posting results...");
     const response = await ApiService.postResults(results);
-    cache.set(id, response.url);
 
+    cache.set(id, response.url);
     logger.time.end();
     res
       .status(200)
