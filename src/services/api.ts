@@ -1,5 +1,4 @@
 import { Payload, Results } from "@types";
-import logger from "@utils/logger";
 
 class ApiService {
   baseUrl: string;
@@ -14,13 +13,8 @@ class ApiService {
 
     const response = await fetch(url);
 
-    const handleError = (error: Error) => {
-      logger.error("error fetching world");
-      throw error;
-    };
-
-    if (!response.ok) handleError(new Error("Response not ok"));
-    return response.json().catch(handleError);
+    if (!response.ok) throw response;
+    return response.json();
   }
 
   async postResults(results: Results): Promise<Response> {
@@ -28,17 +22,11 @@ class ApiService {
 
     const response = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(results),
     });
 
-    if (!response.ok) {
-      logger.error("error posting results");
-      throw new Error("error posting results");
-    }
-
+    if (!response.ok) throw response;
     return response;
   }
 }
